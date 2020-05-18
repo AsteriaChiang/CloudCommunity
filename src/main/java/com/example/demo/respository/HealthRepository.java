@@ -10,6 +10,6 @@ import java.util.Date;
 public interface HealthRepository extends JpaRepository<Health,Long> {
 
     @Query("select s from Health s where s.userTel = ?1 and s.healthDate = ?2")
-    Health findByUserTelAndDate (String userTel, Date healthDate);
+    Health findByUserTelAndDate (String userTel, String healthDate);
 
 }

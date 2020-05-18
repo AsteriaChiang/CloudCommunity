@@ -13,8 +13,9 @@ public class Health {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
     private String userTel;
-    private Date healthDate;
+    private String healthDate;
     private Float healthTemp;
+    private String healthCdt;
 
     public Health(){
 
@@ -34,16 +35,23 @@ public class Health {
         this.userTel = userTel;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return healthDate;
     }
-    public void setDate(Date healthDate) {
+    public void setDate(String healthDate) {
         this.healthDate = healthDate;
     }
 
     public Float getTemp() { return healthTemp; }
     public void setTemp(Float healthTemp) {
         this.healthTemp = healthTemp;
+    }
+
+    public String getCdt() {
+        return healthCdt;
+    }
+    public void setCdt(String healthCdt) {
+        this.healthCdt = healthCdt;
     }
 
 }

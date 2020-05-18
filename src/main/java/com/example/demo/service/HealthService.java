@@ -14,7 +14,7 @@ public class HealthService {
     @Autowired
     private HealthRepository healthRepository;
 
-    public Health findByUserTelAndDate(String tel, Date healthDate)
+    public Health findByUserTelAndDate(String tel, String healthDate)
     {
         return healthRepository.findByUserTelAndDate (tel,healthDate);
     }
