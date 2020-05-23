@@ -29,6 +29,31 @@ public class UserController {
         return loginValue;
     }
 
+    @RequestMapping(value = "/register")
+    public Integer register(HttpServletRequest request) {
+        Integer registerValue = 0;
+
+        String tel = request.getParameter("tel");
+        String name = request.getParameter("name");
+        Integer sex = Integer.valueOf(request.getParameter("sex"));
+        String ic = request.getParameter("ic");
+        String password = request.getParameter("password");
+
+        user = userService.findByUserTel(tel);
+        if (user == null) {
+            User newuser = new User();
+            newuser.setTel(tel);
+            newuser.setName(name);
+            newuser.setSex(sex);
+            newuser.setIc(ic);
+            newuser.setPassword(password);
+            userService.save(newuser);
+            registerValue = 1;
+        }
+
+        return registerValue;
+    }
+
     @RequestMapping(value = "/update")
     public Integer update(HttpServletRequest request) {
         Integer updateValue=0;

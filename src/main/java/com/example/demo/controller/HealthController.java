@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,11 +30,9 @@ public class HealthController {
 
     @RequestMapping(value = "/report")
     public Integer healthReport(HttpServletRequest request) throws ParseException {
-        Integer updateValue=0;
+        Integer healthValue=0;
 
         String userTel =request.getParameter("tel");
-//        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
-//        Date date = new Date(System.currentTimeMillis());
         Date date = new Date();
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String healthDate = format.format(date);
@@ -43,42 +42,62 @@ public class HealthController {
             healthTemp= Float.parseFloat(request.getParameter("temp"));}
         String healthCdt=request.getParameter("cdt");
 
+        //判断user是否存在
         user = userService.findByUserTel(userTel);
-        if(user!=null){
+        if(user==null){
+            return healthValue;
+        }
+
+        health=healthService.findByUserTelAndDate(userTel,healthDate);
+        if(health==null){
+            Health newhealth = new Health();
+            newhealth.setTel(userTel);
+            newhealth.setDate(healthDate);
+            newhealth.setTemp(healthTemp);
+            newhealth.setCdt(healthCdt);
+            healthService.save(newhealth);
+            healthValue=1;//上报成功
+        }else{
             health.setTel(userTel);
             health.setDate(healthDate);
             health.setTemp(healthTemp);
             health.setCdt(healthCdt);
-            healthService.save(health);
-            updateValue=1;
+            healthService.update(health);
+            healthValue=2;//更新成功
         }
 
 
-        return updateValue;
+        return healthValue;
     }
 
     @RequestMapping(value = "/query")
-    public List<String> query(HttpServletRequest request){
+    public Integer query(HttpServletRequest request){
+        Integer test=0;
         List<String> healthList=new ArrayList<>();
         String userTel =request.getParameter("tel");
 
         Date date = new Date();
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String healthDate = format.format(date);
-        health=healthService.findByUserTelAndDate(userTel,healthDate);
-        user=userService.findByUserTel(userTel);
+//        health=healthService.findByUserTel (userTel);
+        List<Health> healths= new ArrayList<Health>();
+        healths=healthService.findTest(userTel);
 
-        if(health!=null){
-            healthList.add(user.getName());
-            healthList.add(user.getIc());
-            healthList.add(health.getTemp().toString());
-            healthList.add(health.getCdt());
-            System.out.println(healthList);
+        if(healths!=null){
+//            healthList.add(user.getName());
+//            healthList.add(user.getIc());
+//            healthList.add(health.getTemp().toString());
+//            healthList.add(health.getCdt());
+            Health newhealth=healths.get(0);
+
+            System.out.println(newhealth.getCdt());
+            test=1;
+
         }
         else {
             healthList.add(null);
         }
 
-        return healthList;
+        return test;
     }
 }

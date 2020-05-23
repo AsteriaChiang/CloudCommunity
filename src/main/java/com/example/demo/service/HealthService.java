@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class HealthService {
@@ -19,8 +20,23 @@ public class HealthService {
         return healthRepository.findByUserTelAndDate (tel,healthDate);
     }
 
+    public Health findByUserTel(String tel)
+    {
+        return healthRepository.findByUserTel (tel);
+    }
+
+    public List<Health> findTest(String tel)
+    {
+        return healthRepository.findTest (tel);
+    }
+
     public void save (Health health)
     {
         healthRepository.save (health);
     }
+    public void update (Health health)
+    {
+        healthRepository.save (health);
+    }
+
 }
