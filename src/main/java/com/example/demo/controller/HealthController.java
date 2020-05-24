@@ -4,6 +4,8 @@ import com.example.demo.entity.Health;
 import com.example.demo.entity.User;
 import com.example.demo.service.HealthService;
 import com.example.demo.service.UserService;
+import com.example.demo.utils.HealthInfo;
+import com.example.demo.utils.HealthInfoTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +31,8 @@ public class HealthController {
     private User user=new User();
 
     @RequestMapping(value = "/report")
-    public Integer healthReport(HttpServletRequest request) throws ParseException {
+    public HealthInfoTool healthReport(HttpServletRequest request) throws ParseException {
+        HealthInfoTool reportresult=new HealthInfoTool();
         Integer healthValue=0;
 
         String userTel =request.getParameter("tel");
@@ -45,7 +48,7 @@ public class HealthController {
         //判断user是否存在
         user = userService.findByUserTel(userTel);
         if(user==null){
-            return healthValue;
+            return reportresult;
         }
 
         health=healthService.findByUserTelAndDate(userTel,healthDate);
@@ -66,38 +69,40 @@ public class HealthController {
             healthValue=2;//更新成功
         }
 
-
-        return healthValue;
+        reportresult.setStatusCode(healthValue);
+        return reportresult;
     }
 
     @RequestMapping(value = "/query")
-    public Integer query(HttpServletRequest request){
-        Integer test=0;
-        List<String> healthList=new ArrayList<>();
+    public HealthInfoTool query(HttpServletRequest request){
+        HealthInfoTool queryResult=new HealthInfoTool();
+        Integer queryValue=0;
         String userTel =request.getParameter("tel");
 
-        Date date = new Date();
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        String healthDate = format.format(date);
-//        health=healthService.findByUserTel (userTel);
-        List<Health> healths= new ArrayList<Health>();
-        healths=healthService.findTest(userTel);
+        //获得日期
+//        Date date = new Date();
+//        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//        String healthDate = format.format(date);
 
-        if(healths!=null){
-//            healthList.add(user.getName());
-//            healthList.add(user.getIc());
-//            healthList.add(health.getTemp().toString());
-//            healthList.add(health.getCdt());
-            Health newhealth=healths.get(0);
+        ArrayList<Health> healths;
+        healths=healthService.findByUserTel (userTel);
+        ArrayList<HealthInfo> healthInfos=new ArrayList<>();
 
-            System.out.println(newhealth.getCdt());
-            test=1;
+        if(health!=null){
+            for (Health health:healths) {
+                HealthInfo healthInfo=new HealthInfo();
+                String date=health.getDate();
+                Float temp=health.getTemp();
+                String cdt=health.getCdt();
+                healthInfo.setInfo(date,temp,cdt);
+                healthInfos.add(healthInfo);
+            }
+            queryResult.setData(healthInfos);
+            queryValue=1;
 
         }
-        else {
-            healthList.add(null);
-        }
 
-        return test;
+        queryResult.setStatusCode(queryValue);
+        return queryResult;
     }
 }

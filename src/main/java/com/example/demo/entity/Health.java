@@ -12,6 +12,7 @@ public class Health {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
+
     private String userTel;
     private String healthDate;
     private Float healthTemp;

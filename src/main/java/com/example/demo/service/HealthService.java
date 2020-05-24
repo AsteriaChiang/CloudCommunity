@@ -6,6 +6,7 @@ import com.example.demo.respository.HealthRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,15 +21,15 @@ public class HealthService {
         return healthRepository.findByUserTelAndDate (tel,healthDate);
     }
 
-    public Health findByUserTel(String tel)
+    public ArrayList<Health> findByUserTel(String tel)
     {
         return healthRepository.findByUserTel (tel);
     }
 
-    public List<Health> findTest(String tel)
-    {
-        return healthRepository.findTest (tel);
-    }
+//    public List<Health> findTest(String tel)
+//    {
+//        return healthRepository.findTest (tel);
+//    }
 
     public void save (Health health)
     {
