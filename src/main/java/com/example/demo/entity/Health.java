@@ -16,7 +16,7 @@ public class Health {
     private String userTel;
     private String healthDate;
     private Float healthTemp;
-    private String healthCdt;
+    private Integer healthCdt;
 
     public Health(){
 
@@ -48,11 +48,12 @@ public class Health {
         this.healthTemp = healthTemp;
     }
 
-    public String getCdt() {
+
+    public Integer getHealthCdt() {
         return healthCdt;
     }
-    public void setCdt(String healthCdt) {
+
+    public void setHealthCdt(Integer healthCdt) {
         this.healthCdt = healthCdt;
     }
-
 }

@@ -4,9 +4,9 @@ package com.example.demo.utils;
 public class HealthInfo {
     private String healthDate;
     private Float healthTemp;
-    private String healthCdt;
+    private Integer healthCdt;
 
-    public void setInfo(String healthDate,Float healthTemp,String healthCdt){
+    public void setInfo(String healthDate,Float healthTemp,Integer healthCdt){
         this.healthDate = healthDate;
         this.healthTemp = healthTemp;
         this.healthCdt = healthCdt;
@@ -29,11 +29,12 @@ public class HealthInfo {
         this.healthTemp = healthTemp;
     }
 
-    public String getHealthCdt() {
+
+    public Integer getHealthCdt() {
         return healthCdt;
     }
 
-    public void setHealthCdt(String healthCdt) {
+    public void setHealthCdt(Integer healthCdt) {
         this.healthCdt = healthCdt;
     }
 }

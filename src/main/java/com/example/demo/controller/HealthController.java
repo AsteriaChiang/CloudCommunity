@@ -43,7 +43,10 @@ public class HealthController {
         Float healthTemp=(float)0.0;
         if(request.getParameter("temp")!=null){
             healthTemp= Float.parseFloat(request.getParameter("temp"));}
-        String healthCdt=request.getParameter("cdt");
+        Integer healthCdt=0;
+        if(request.getParameter("cdt")!=null){
+            healthCdt= Integer.parseInt(request.getParameter("cdt"));}
+
 
         //判断user是否存在
         user = userService.findByUserTel(userTel);
@@ -57,14 +60,14 @@ public class HealthController {
             newhealth.setTel(userTel);
             newhealth.setDate(healthDate);
             newhealth.setTemp(healthTemp);
-            newhealth.setCdt(healthCdt);
+            newhealth.setHealthCdt(healthCdt);
             healthService.save(newhealth);
             healthValue=1;//上报成功
         }else{
             health.setTel(userTel);
             health.setDate(healthDate);
             health.setTemp(healthTemp);
-            health.setCdt(healthCdt);
+            health.setHealthCdt(healthCdt);
             healthService.update(health);
             healthValue=2;//更新成功
         }
@@ -93,7 +96,7 @@ public class HealthController {
                 HealthInfo healthInfo=new HealthInfo();
                 String date=health.getDate();
                 Float temp=health.getTemp();
-                String cdt=health.getCdt();
+                Integer cdt=health.getHealthCdt();
                 healthInfo.setInfo(date,temp,cdt);
                 healthInfos.add(healthInfo);
             }
