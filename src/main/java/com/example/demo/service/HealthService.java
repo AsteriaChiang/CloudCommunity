@@ -26,11 +26,6 @@ public class HealthService {
         return healthRepository.findByUserTel (tel);
     }
 
-//    public List<Health> findTest(String tel)
-//    {
-//        return healthRepository.findTest (tel);
-//    }
-
     public void save (Health health)
     {
         healthRepository.save (health);

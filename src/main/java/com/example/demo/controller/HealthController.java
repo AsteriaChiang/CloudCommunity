@@ -7,6 +7,8 @@ import com.example.demo.service.UserService;
 import com.example.demo.utils.HealthInfo;
 import com.example.demo.utils.HealthInfoTool;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -51,6 +53,7 @@ public class HealthController {
         //判断user是否存在
         user = userService.findByUserTel(userTel);
         if(user==null){
+            reportresult.setStatusCode(healthValue);
             return reportresult;
         }
 
@@ -91,12 +94,12 @@ public class HealthController {
         healths=healthService.findByUserTel (userTel);
         ArrayList<HealthInfo> healthInfos=new ArrayList<>();
 
-        if(health!=null){
-            for (Health health:healths) {
+        if(healths.size()>0){
+            for (Health eachhealth:healths) {
                 HealthInfo healthInfo=new HealthInfo();
-                String date=health.getDate();
-                Float temp=health.getTemp();
-                Integer cdt=health.getHealthCdt();
+                String date=eachhealth.getDate();
+                Float temp=eachhealth.getTemp();
+                Integer cdt=eachhealth.getHealthCdt();
                 healthInfo.setInfo(date,temp,cdt);
                 healthInfos.add(healthInfo);
             }
