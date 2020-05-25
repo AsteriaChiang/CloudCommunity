@@ -17,7 +17,7 @@ public class User {
     private String name;
     private Integer sex;
     private String ic;
-//    private Integer auz;
+    private Integer auz;
 
     public User(){
 
@@ -69,4 +69,11 @@ public class User {
         this.ic = ic;
     }
 
+    public Integer getAuz() {
+        return auz;
+    }
+
+    public void setAuz(Integer auz) {
+        this.auz = auz;
+    }
 }

@@ -31,7 +31,8 @@ public class UserController {
             String name=user.getName();
             String ic=user.getIc();
             Integer sex=user.getSex();
-            loginUser.setInfo(tel,name,ic,sex);
+            Integer auz=user.getAuz();
+            loginUser.setInfo(tel,name,ic,sex,auz);
             loginResult.setData(loginUser);
             loginValue=1;//登陆成功
         }
@@ -47,7 +48,9 @@ public class UserController {
 
         String tel = request.getParameter("tel");
         String name = request.getParameter("name");
-        Integer sex = Integer.valueOf(request.getParameter("sex"));
+        Integer sex = 0;
+        if(request.getParameter("cdt")!=null){
+            sex= Integer.valueOf(request.getParameter("sex"));}
         String ic = request.getParameter("ic");
         String password = request.getParameter("password");
 
@@ -59,6 +62,7 @@ public class UserController {
             newuser.setSex(sex);
             newuser.setIc(ic);
             newuser.setPassword(password);
+            newuser.setAuz(0);
             userService.save(newuser);
             registerValue = 1;
         }
@@ -74,7 +78,9 @@ public class UserController {
 
         String tel = request.getParameter("tel");
         String name = request.getParameter("name");
-        Integer sex = Integer.valueOf(request.getParameter("sex"));
+        Integer sex = 0;
+        if(request.getParameter("cdt")!=null){
+            sex= Integer.valueOf(request.getParameter("sex"));}
         String ic = request.getParameter("ic");
 
         user = userService.findByUserTel(tel);
